@@ -407,24 +407,18 @@ class Dataset_btp(Dataset):
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
 
-        if self.features == 'M' or self.features == 'MS':
-            cols_data = df_raw.columns[1:]
-            df_data = df_raw[cols_data]
-        elif self.features == 'S':
-            df_data = df_raw[[self.target]]
-
         if self.scale:
-            train_data = df_data[border1s[0]:border2s[0]]
+            train_data = df_raw[border1s[0]:border2s[0]]
             self.scaler.fit(train_data.values)
-            data = self.scaler.transform(df_data.values)
+            data = self.scaler.transform(df_raw.values)
         else:
-            data = df_data.values
+            data = df_raw.values
 
-        data_stamp = df_data["time"]
+        data_stamp = df_raw["time"]
 
         self.data_x = data[border1:border2]
         if self.inverse:
-            self.data_y = df_data.values[border1:border2]
+            self.data_y = df_raw.values[border1:border2]
         else:
             self.data_y = data[border1:border2]
         self.data_stamp = data_stamp
