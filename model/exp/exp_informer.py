@@ -62,7 +62,7 @@ class Exp_Informer(Exp_Basic):
         args = self.args
 
         data_dict = {
-            'BTP' : Dataset_btp,
+            'BTP': Dataset_btp,
             'ETTh1': Dataset_ETT_hour,
             'ETTh2': Dataset_ETT_hour,
             'ETTm1': Dataset_ETT_minute,
@@ -100,7 +100,7 @@ class Exp_Informer(Exp_Basic):
             timeenc=timeenc,
             freq=freq
         )
-        print(flag, len(data_set),type(data_set))
+        print(flag, len(data_set), type(data_set))
         data_loader = DataLoader(
             data_set,
             batch_size=batch_size,

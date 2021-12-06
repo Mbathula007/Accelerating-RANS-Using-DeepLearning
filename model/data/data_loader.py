@@ -414,7 +414,7 @@ class Dataset_btp(Dataset):
         else:
             data = df_raw.values
 
-        data_stamp = df_raw["time"]
+        data_stamp = df_raw["time"].values
 
         self.data_x = data[border1:border2]
         if self.inverse:
@@ -433,7 +433,7 @@ class Dataset_btp(Dataset):
         seq_x_mark = self.data_stamp[s_begin:s_end]
         seq_y_mark = self.data_stamp[r_begin:r_end]
 
-        return seq_x, seq_y, seq_x_mark, seq_y_mark
+        return seq_x.values, seq_y.values, seq_x_mark.values, seq_y_mark.values
 
     def __len__(self):
         return len(self.data_x) - self.seq_len - self.pred_len + 1
