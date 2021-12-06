@@ -100,7 +100,7 @@ class Exp_Informer(Exp_Basic):
             timeenc=timeenc,
             freq=freq
         )
-        print(flag, len(data_set))
+        print(flag, len(data_set),type(data_set))
         data_loader = DataLoader(
             data_set,
             batch_size=batch_size,
