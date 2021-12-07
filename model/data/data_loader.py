@@ -406,15 +406,15 @@ class Dataset_btp(Dataset):
         border2s = [int(0.8 * len(df_raw)), int(0.9 * len(df_raw)), int(len(df_raw))]
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
-
+        data_stamp = df_raw["time"].values
+        df_raw.drop(["time", "Unnamed: 0"], axis=1, inplace=True)
+        print(df_raw.columns[:5])
         if self.scale:
             train_data = df_raw[border1s[0]:border2s[0]]
             self.scaler.fit(train_data.values)
             data = self.scaler.transform(df_raw.values)
         else:
             data = df_raw.values
-
-        data_stamp = df_raw["time"].values
 
         self.data_x = data[border1:border2]
         if self.inverse:
@@ -426,17 +426,17 @@ class Dataset_btp(Dataset):
     def __getitem__(self, index):
         s_begin = index
         s_end = s_begin + self.seq_len
-        r_begin = s_end - self.label_len
-        r_end = r_begin + self.label_len + self.pred_len
+        r_begin = s_end
+        r_end = r_begin + self.seq_len
         seq_x = self.data_x[s_begin:s_end]
         seq_y = self.data_y[r_begin:r_end]
         seq_x_mark = self.data_stamp[s_begin:s_end]
         seq_y_mark = self.data_stamp[r_begin:r_end]
 
-        return seq_x.values, seq_y.values, seq_x_mark.values, seq_y_mark.values
+        return seq_x, seq_y, seq_x_mark, seq_y_mark
 
     def __len__(self):
         return len(self.data_x) - self.seq_len - self.pred_len + 1
 
     def inverse_transform(self, data):
-        return self.scaler.inverse_transform(data)
+        return self.scaler.inverse_transform(data).values

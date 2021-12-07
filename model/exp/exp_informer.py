@@ -185,6 +185,7 @@ class Exp_Informer(Exp_Basic):
             self.model.train()
             epoch_time = time.time()
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(train_loader):
+                print(batch_x.shape,batch_y.shape,batch_x_mark.shape,batch_y_mark.shape)
                 iter_count += 1
 
                 model_optim.zero_grad()
